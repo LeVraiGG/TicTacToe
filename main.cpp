@@ -96,8 +96,8 @@ bool addACase(int user, bool isComputer) {
     std::string yString = "";
     if (isComputer) {
         //generate random coordinate
-        xString = std::to_string(rand()%GAME_ARR.size());
-        yString = std::to_string(rand()%GAME_ARR[0].size());
+        xString = std::to_string(rand() % GAME_ARR.size());
+        yString = std::to_string(rand() % GAME_ARR[0].size());
     } else {
         //ask user the coordinate of the case to check
         std::string caseToAdd;
@@ -126,7 +126,17 @@ void displayArray() {
     //iterate on each case of the array
     for (int y = 0; y < GAME_ARR.size(); y++) {
         for (int x = 0; x < GAME_ARR[0].size(); x++) {
-            std::cout << " " << GAME_ARR[y][x] << " ";
+            switch (GAME_ARR[y][x]) {
+                case 2:
+                    std::cout << " X ";
+                    break;
+                case 1:
+                    std::cout << " O ";
+                    break;
+                case 0:
+                default:
+                    std::cout << " - ";
+            }
         }
         std::cout << std::endl;
     }
@@ -148,9 +158,17 @@ void newGame(bool isVsComputer) {
     }
 
     if (checkWinR(1)) {
-        std::cout << "Congratulation, User 1 win !" << std::endl;
+        if (isVsComputer) {
+            std::cout << "Congratulation, you won !" << std::endl;
+        } else {
+            std::cout << "Congratulation, User 1 won !" << std::endl;
+        }
     } else {
-        std::cout << "Congratulation, User 2 win !" << std::endl;
+        if (isVsComputer) {
+            std::cout << "Congratulation, you lost !" << std::endl;
+        } else {
+            std::cout << "Congratulation, User 2 won !" << std::endl;
+        }
     }
 }
 
@@ -159,7 +177,7 @@ int main() {
     std::cout << "Hello, do you want to play against computer (y to proceed) ?" << std::endl;
     std::string input = "";
     std::getline(std::cin, input);
-    newGame(input.compare("y") == 0 ? true : false);
+    newGame(input.compare("y") == 0);
 
     return 0;
 }
